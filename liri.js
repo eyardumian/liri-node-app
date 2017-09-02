@@ -1,12 +1,11 @@
 //Node package to read and write contents of a file
-var fs = require("fs");
 //This variable grabs the data from keys.js
 var keys = require('./keys.js');
 //Take the data from the twitter module and place it in a variable
 var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 var request = require("request");
-var songSearch = process.argv[3];
+var fs = require("fs");
 
 
 
@@ -28,7 +27,8 @@ client.get('statuses/user_timeline', params, function(error, tweets, response){
   });
 };
 
-function findSongs() {
+function findSongs(action2) {
+  var songSearch = process.argv[3] || action2;// will run action 2 if process.argv[3] doesn't exist
   var spotify = new Spotify(keys.spotifyKeys);
   spotify.search({ type: 'track', query: songSearch, limit: 3 }, function(err, data){
     if (!err) {
@@ -85,34 +85,40 @@ function findMovies() {
 });
 }
 
-function doWhatItSays() { //this isn't working. 
+function doWhatItSays() { //this isn't working.
+
   fs.readFile("random.txt", "utf8", function(err, data) {
     if (err) {
       console.log(err);
     }  else {
-      var dataArr = data.split(",");
-      console.log(dataArr);
-      findSongs(dataArr);
+      var command = data.split(",");
+
+      //findSongs(dataArr[1]);
+      pick(command[0], command[1]);
+      //switch(action)
+      //runApp(dataArr[0]);
+      //switch(dataArr);
     };
 });
 };
 
 //select the correct block of code to be executed
-function pick(action) {
+function pick(action, action2) {//action 2 will run command[1] of doWhatItSays()
+
 switch(action){ //I received instruction on the switch statement from one of the online tutors
-  case 'my-tweets' :
+  case 'my-tweets':
     getTweets();
     break;
-  case 'spotify-this-song' :
-    findSongs();
+  case 'spotify-this-song':
+    findSongs(action2);
     break;
-  case 'movie-this' :
+  case 'movie-this':
     findMovies();
     break;
-  case 'do-what-it-says' :
+  case 'do-what-it-says':
     doWhatItSays();
-    break;
-    default://Run this if there is no case match
+    break;t
+  default://Run this if there is no case match
     console.log('song');
 }
 };
