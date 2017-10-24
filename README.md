@@ -5,9 +5,9 @@ LIRI is like iPhone's SIRI. However, while SIRI is a Speech Interpretation and R
 LIRI is a command line node app that takes in parameters and gives you back data.
 
 Install the following npm packages:
-npm install twitter
-npm install spotify
-npm install request
+* npm install twitter
+* npm install spotify
+* npm install request
 
 Commands to run LIRI:
 
